@@ -5,7 +5,7 @@ plugins {
 android {
     namespace = "it.uniparthenope.ciongoli.rainrun"
     compileSdk {
-        version = release(36) {
+        version = release(37) {
             minorApiLevel = 1
         }
     }
