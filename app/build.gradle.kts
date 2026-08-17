@@ -9,7 +9,9 @@ android {
             minorApiLevel = 1
         }
     }
-
+    buildFeatures{
+        viewBinding= true
+    }
     defaultConfig {
         applicationId = "it.uniparthenope.ciongoli.rainrun"
         minSdk = 26
