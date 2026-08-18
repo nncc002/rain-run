@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         binding.wallpaper.setOnClickListener{
             runner.jump()}
         binding.playbutton.setOnClickListener{
+            Log.d("State","Game started")
             lifecycleScope.launch{
                 binding.title.visibility=View.GONE
                 binding.playbutton.visibility=View.GONE
@@ -32,10 +33,14 @@ class MainActivity : AppCompatActivity() {
                     binding.player.translationY = runner.pos_y.toFloat()
                     earthobst.frame()
                     binding.obstacle.translationX=earthobst.pos_x.toFloat()
+                    Log.d("POSITION", "px${binding.player.x} , py${binding.player.y} , ph${binding.player.height}, pw${binding.player.width}, ox${binding.obstacle.x} , oy${binding.obstacle.y} , oh${binding.obstacle.height}, ow${binding.obstacle.width} ")
+                    if(binding.player.x<binding.obstacle.x+binding.obstacle.width && binding.player.x+binding.player.width>binding.obstacle.x && binding.player.y<binding.obstacle.y+binding.obstacle.height && binding.player.y+binding.player.height>binding.obstacle.y){
+                        Log.d("COLLISION", "Game Over")
+                    }
                     delay(16)
                 }
             }
-            Log.d("State","Game started")
+
         }
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
