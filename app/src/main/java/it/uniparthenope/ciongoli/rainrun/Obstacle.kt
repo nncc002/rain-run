@@ -9,4 +9,7 @@ class Obstacle {
             pos_x=0.0
         }
     }
+    fun reset(){
+        pos_x=0.0
+    }
 }

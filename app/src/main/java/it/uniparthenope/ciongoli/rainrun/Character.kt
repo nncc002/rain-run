@@ -15,4 +15,8 @@ class Character {
             speed_y = 0.0
         }
     }
+    fun reset(){
+         speed_y = 0.0
+         pos_y=0.0
+    }
     }

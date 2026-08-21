@@ -28,17 +28,28 @@ class MainActivity : AppCompatActivity() {
             lifecycleScope.launch{
                 binding.title.visibility=View.GONE
                 binding.playbutton.visibility=View.GONE
+                var sc:Int=0
+
                 while(true){
+                    binding.score.text=(sc/10).toString()
                     runner.frame()
                     binding.player.translationY = runner.pos_y.toFloat()
                     earthobst.frame()
                     binding.obstacle.translationX=earthobst.pos_x.toFloat()
-                    Log.d("POSITION", "px${binding.player.x} , py${binding.player.y} , ph${binding.player.height}, pw${binding.player.width}, ox${binding.obstacle.x} , oy${binding.obstacle.y} , oh${binding.obstacle.height}, ow${binding.obstacle.width} ")
+                    sc=sc+1
                     if(binding.player.x<binding.obstacle.x+binding.obstacle.width && binding.player.x+binding.player.width>binding.obstacle.x && binding.player.y<binding.obstacle.y+binding.obstacle.height && binding.player.y+binding.player.height>binding.obstacle.y){
-                        Log.d("COLLISION", "Game Over")
+                        Log.d("State", "Game Over")
+                        break
                     }
                     delay(16)
                 }
+                binding.gameovertxt.visibility=View.VISIBLE
+                delay(2000)
+                binding.gameovertxt.visibility=View.GONE
+                binding.title.visibility=View.VISIBLE
+                binding.playbutton.visibility=View.VISIBLE
+                runner.reset()
+                earthobst.reset()
             }
 
         }
