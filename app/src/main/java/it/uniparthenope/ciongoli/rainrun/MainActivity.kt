@@ -7,6 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import it.uniparthenope.ciongoli.rainrun.databinding.ActivityMainBinding
 import kotlinx.coroutines.delay
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    val viewmodel: VwModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -43,6 +45,10 @@ class MainActivity : AppCompatActivity() {
                     }
                     delay(16)
                 }
+                if((sc/10)>viewmodel.highscore){
+                    viewmodel.highscore=(sc/10)
+            }
+                binding.highscore.text=viewmodel.highscore.toString()
                 binding.gameovertxt.visibility=View.VISIBLE
                 delay(2000)
                 binding.gameovertxt.visibility=View.GONE
