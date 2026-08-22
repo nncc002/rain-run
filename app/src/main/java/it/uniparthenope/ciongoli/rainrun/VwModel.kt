@@ -8,8 +8,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 class VwModel(private val repo: ScoreRepo): ViewModel() {
+    private val _score = MutableStateFlow(0)
     private val _highscore = MutableStateFlow(0)
+    private val _state = MutableStateFlow(StateG.MENU)
+    val score: StateFlow<Int> = _score.asStateFlow()
     val highscore: StateFlow<Int> = _highscore.asStateFlow()
+    val state: StateFlow<StateG> = _state.asStateFlow()
     init {
         load()
     }
@@ -27,6 +31,21 @@ class VwModel(private val repo: ScoreRepo): ViewModel() {
             _highscore.value=newscore
         }
 
+    }
+    fun reset(){
+        viewModelScope.launch{
+            repo.resetHighScore()
+            _highscore.value=0
+        }
+    }
+    fun setState(newstate:StateG){
+        _state.value = newstate
+    }
+    fun increaseScore(){
+        _score.value= _score.value+1
+    }
+    fun resetScore(){
+        _score.value = 0
     }
     }
 

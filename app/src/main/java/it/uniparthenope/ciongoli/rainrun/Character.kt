@@ -1,22 +1,22 @@
 package it.uniparthenope.ciongoli.rainrun
 
 class Character {
-    var speed_y: Double = 0.0
-    var pos_y=0.0
-    val gravity: Double =1.5
-    val initial_sp=-20.0
+    var speedy: Double = 0.0
+    var posy=0.0
+    val gravity: Double =1.3
+    val initial_sp=-30.0
     fun jump() {
-        speed_y = initial_sp}
+        speedy = initial_sp}
     fun frame(){
-        speed_y = speed_y+gravity
-        pos_y = pos_y+speed_y
-        if (pos_y > 0.0) {
-            pos_y= 0.0
-            speed_y = 0.0
+        speedy = speedy+gravity
+        posy = posy+speedy
+        if (posy > 0.0) {
+            posy= 0.0
+            speedy = 0.0
         }
     }
     fun reset(){
-         speed_y = 0.0
-         pos_y=0.0
+         speedy = 0.0
+         posy=0.0
     }
     }
