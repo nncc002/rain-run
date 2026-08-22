@@ -8,14 +8,18 @@ import androidx.core.view.WindowInsetsCompat
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import it.uniparthenope.ciongoli.rainrun.databinding.ActivityMainBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    val viewmodel: VwModel by viewModels()
+    private val viewmodel: VwModel by viewModels(){
+        VwModelFactory(ScoreRepo(AppData.getData(this).scoreDAO()))
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -27,6 +31,11 @@ class MainActivity : AppCompatActivity() {
             runner.jump()}
         binding.playbutton.setOnClickListener{
             Log.d("State","Game started")
+            lifecycleScope.launch{
+                repeatOnLifecycle(Lifecycle.State.STARTED){
+                    viewmodel.highscore.collect {value -> binding.highscore.text= value.toString()}
+                }
+            }
             lifecycleScope.launch{
                 binding.title.visibility=View.GONE
                 binding.playbutton.visibility=View.GONE
@@ -45,10 +54,11 @@ class MainActivity : AppCompatActivity() {
                     }
                     delay(16)
                 }
-                if((sc/10)>viewmodel.highscore){
-                    viewmodel.highscore=(sc/10)
+
+                if((sc/10)>viewmodel.highscore.value){
+                    viewmodel.save(sc/10)
+                    Log.d("State", "Highscore saved")
             }
-                binding.highscore.text=viewmodel.highscore.toString()
                 binding.gameovertxt.visibility=View.VISIBLE
                 delay(2000)
                 binding.gameovertxt.visibility=View.GONE
